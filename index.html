@@ -329,6 +329,53 @@ body.is-paused #comboBanner{animation-play-state:paused}
   .set-note{font-size:11px;line-height:1.5}
   #pause h1{font-size:44px}
 }
+
+/* ===== phone HUD: smaller panels, one top row, banner + callouts in the free band under the enemies ===== */
+@media (max-width:640px){
+  .panel{padding:4px 8px 5px}
+  .lbl{font-size:8px;letter-spacing:.16em}
+  #score{font-size:16px}#timer{font-size:14px}#combo{font-size:26px}#mult{font-size:11px}
+  .tl,.tc,.tr{top:calc(10px + var(--sat))}
+  .tl{left:calc(10px + var(--sal));padding-right:12px}.tr{right:calc(10px + var(--sar))}
+  .tc{min-width:0}
+  #target{top:calc(70px + var(--sat));width:min(300px,calc(100% - 24px));padding:4px 10px 6px}
+  #romaji{font-size:30px}
+  #limitBar{height:8px}#limitNum{font-size:12px;width:40px}
+  .bl{left:calc(10px + var(--sal));bottom:calc(10px + var(--sab));width:min(260px,calc(100% - 20px))}
+  #hpbar{height:11px}#hpnum{font-size:12px;width:34px}
+  .br{right:calc(10px + var(--sar));bottom:calc(58px + var(--sab))}
+  #modeTag{font-size:11px}
+  #replay,#pauseBtn{min-height:36px;padding:4px 10px;font-size:12px}
+  #bossHud{bottom:calc(130px + var(--sab));width:min(260px,calc(100% - 24px));padding:4px 10px 6px}
+  #bossBar{height:10px}#bossNum{font-size:12px}
+  #comboBanner{top:68%;width:min(300px,calc(100vw - 32px));padding:8px 16px 10px}
+  #comboBanner .cb-eyebrow{font-size:9px;letter-spacing:.24em}
+  #comboBanner .cb-main{font-size:28px}
+  #comboBanner .cb-sub{font-size:11px;letter-spacing:.08em}
+  #callout{top:68%;font-size:30px}
+  #callout small{font-size:13px}
+  .pop{font-size:18px}.pop.sub{font-size:12px}
+}
+@media (max-height:520px) and (orientation:landscape){
+  .panel{padding:3px 8px 4px}
+  .lbl{font-size:8px}
+  #score{font-size:15px}#timer{font-size:13px}#combo{font-size:24px}#mult{font-size:10px}
+  #target{width:min(240px,30vw);padding:3px 10px 5px}
+  #romaji{font-size:24px}
+  #limitBar{height:7px}#limitNum{font-size:11px;width:36px}
+  .bl{width:min(190px,24vw)}
+  #hpbar{height:9px}#hpnum{font-size:11px;width:30px}
+  #replay,#pauseBtn{min-height:32px;padding:3px 9px;font-size:11px}
+  #bossHud{top:calc(54px + var(--sat));width:min(230px,28vw);padding:3px 8px 4px}
+  #bossBar{height:8px}#bossNum{font-size:11px}
+  #comboBanner{top:70%;width:min(270px,34vw);padding:6px 14px 8px}
+  #comboBanner .cb-eyebrow{font-size:8px}
+  #comboBanner .cb-main{font-size:24px}
+  #comboBanner .cb-sub{font-size:10px;letter-spacing:.06em}
+  #callout{top:72%;left:78%;font-size:26px}
+  #callout small{font-size:12px}
+  .pop{font-size:16px}.pop.sub{font-size:11px}
+}
 @media (prefers-reduced-motion:reduce){
   #romaji.flick,.bump,body.glitch #hud{animation:none}
 }
@@ -1311,7 +1358,7 @@ function spawnWave() {
     w.enemies.push(makeEnemy(s[0], s[1], s[2], x, y, z + rand(-1, 1)));
   });
   // portrait phones: shrink targets with the screen width (tablets ~0.9, phones ~0.6) so nothing runs off the edges
-  const sizeK = narrow ? clamp(camera.aspect * 1.3, 0.6, 1) : 1;
+  const sizeK = narrow ? clamp(camera.aspect * 1.3, 0.6, 1) : H < 500 ? 0.8 : 1; // phones sideways: a little smaller too
   w.enemies.forEach(e => { e.sizeK = sizeK; });
   G.wave = w; lockE = null; lockT = 0;
   elRomaji.textContent = ro.toUpperCase();
